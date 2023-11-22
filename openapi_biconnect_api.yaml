@@ -1,0 +1,570 @@
+openapi: 3.1.0
+info:
+  title: BiConnect
+  description: |-
+    Contrato de API referente aos recursos que atendem como fonte de dados para o BiConnect.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+paths:
+  /clientes:
+    post:
+      tags:
+        - Clientes
+      summary: Cria usuario
+      description: Cria um usuario no banco de dados
+      operationId: post-clientes
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+    get:
+      tags:
+        - Clientes
+      summary: Lista usuarios
+      description: Lista usuarios após busca no banco de dados, podendo utilizar filtros query
+      operationId: get-clientes
+      responses:
+        '200':
+          $ref: '#/components/responses/ListarClientes'
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+  /clientes/{cpf}:
+    put:
+      tags:
+        - Clientes
+      summary: Cria usuario
+      description: Atualiza um cliente no banco de dados a partir do cpf
+      operationId: put-clientes-cpf
+      parameters: 
+        - in: path
+          name: cpf
+          required: true
+          description: Numero do cpf do cliente com apenas numeros
+          schema: 
+            type: string
+            maxLength: 11
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtualizarCliente'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+    get:
+      tags:
+        - Clientes
+      summary: Detalha cliente
+      description: Detalha cliente a partir do cpf
+      operationId: get-clientes-details
+      parameters: 
+        - in: path
+          name: cpf
+          required: true
+          description: Numero do cpf do cliente com apenas numeros
+          schema: 
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/DetalharClientes'
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+    delete:
+      tags:
+        - Clientes
+      summary: Deleta cliente
+      description: Deleta cliente no banco de dados a partir do cpf
+      operationId: delete-clientes
+      responses:
+        '204':
+          description: "Deletado"
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+  /prestadores:
+    post:
+      tags:
+        - Prestadores
+      summary: Cria prestador
+      description: Cria um prestador no banco de dados
+      operationId: post-prestadores
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+    get:
+      tags:
+        - Prestadores
+      summary: Lista prestadores
+      description: Lista prestadores após busca no banco de dados, podendo utilizar filtros query
+      operationId: get-prestadores
+      responses:
+        '200':
+          $ref: '#/components/responses/ListarClientes'
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+  /prestadores/{cpf}:
+    put:
+      tags:
+        - Prestadores
+      summary: Cria prestador
+      description: Atualiza um prestador no banco de dados a partir do cpf
+      operationId: put-prestadores
+      parameters: 
+        - in: path
+          name: cpf
+          required: true
+          description: Numero do cpf do prestador com apenas numeros
+          schema: 
+            type: string
+            maxLength: 11
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtualizarPrestador'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+    get:
+      tags:
+        - Prestadores
+      summary: Detalha prestador
+      description: Detalha prestador a partir do cpf
+      operationId: get-prestadores-details
+      parameters: 
+        - in: path
+          name: cpf
+          required: true
+          description: Numero do cpf do prestador com apenas numeros
+          schema: 
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/DetalharClientes'
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+    delete:
+      tags:
+        - Prestadores
+      summary: Deleta prestador
+      description: Deleta prestador no banco de dados a partir do cpf
+      operationId: delete-prestadores
+      responses:
+        '204':
+          description: "Deletado"
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+  /prestadores/{cpf}/servicos:
+    post:
+      tags:
+        - Serviços
+      summary: Cria serviço ao prestador
+      description: Cria um serviço para o prestador do CPF informado
+      operationId: post-prestadores-servicos
+      parameters: 
+        - in: path
+          name: cpf
+          required: true
+          description: Numero do CPF do prestador com apenas numeros
+          schema: 
+            type: string
+            maxLength: 11
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Servico'
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+    get:
+      tags:
+        - Serviços
+      summary: Lista serviços do prestador
+      description: Lista os serviços prestados relacionado ao CPF informado
+      operationId: get-prestadores-servicos
+      parameters: 
+        - in: path
+          name: cpf
+          required: true
+          description: Numero do cpf do prestador com apenas numeros
+          schema: 
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ServicoList'
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+  /prestadores/{cpf}/servicos/{id}:
+    put:
+      tags:
+        - Serviços
+      summary: Cria serviço ao prestador
+      description: Cria um serviço para o prestador do CPF informado
+      operationId: put-prestadores-servicos-id
+      parameters: 
+        - in: path
+          name: cpf
+          required: true
+          description: Numero do CPF do prestador com apenas numeros
+          schema: 
+            type: string
+            maxLength: 11
+        - in: path
+          name: id
+          required: true
+          description: Numero do serviço prestado
+          schema: 
+            type: integer
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Servico'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+    delete:
+      tags:
+        - Serviços
+      summary: Deleta serviço do prestador
+      description: Deleta um serviço prestados relacionado ao CPF informado e ID
+      operationId: delete-prestadores-servicos-id
+      parameters: 
+        - in: path
+          name: cpf
+          required: true
+          description: Numero do cpf do prestador com apenas numeros
+          schema: 
+            type: string
+        - in: path
+          name: id
+          required: true
+          description: Numero do serviço prestado
+          schema: 
+            type: integer
+      responses:
+        '204':
+          description: "Deletado com sucesso"
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+  /servicos:
+    get:
+      tags:
+        - Serviços
+      summary: Lista serviços
+      description: Lista todos os serviços
+      operationId: getservicos
+      responses:
+        '200':
+          $ref: '#/components/responses/ServicoListDetailed'
+        '400':
+          $ref: '#/components/responses/ErroTratado'
+        '500':
+          description: "Ocorreu um erro inesperado"
+components:
+  schemas:
+    Servico:
+      type: object
+      properties:
+        categoria:
+          type: string
+          enum: 
+            - DOMESTICO
+            - ESTETICA
+            - MANUNTENCAO
+            - TRANSPORTE
+            - OUTROS
+            - EDUCACAO
+        descricao:
+          type: string
+        valorHora:
+          type: number
+    ServicoDetailed:
+      type: object
+      properties:
+        id:
+          type: integer
+        categoria:
+          type: string
+          enum:
+            - DOMESTICO
+            - ESTETICA
+            - MANUNTENCAO
+            - TRANSPORTE
+            - OUTROS
+            - EDUCACAO
+        descricao:
+          type: string
+        valorHora:
+          type: number
+    ServicoDetailedPlus:
+      type: object
+      properties:
+        id:
+          type: integer
+        categoria:
+          type: string
+          enum:
+            - DOMESTICO
+            - ESTETICA
+            - MANUNTENCAO
+            - TRANSPORTE
+            - OUTROS
+            - EDUCACAO
+        descricao:
+          type: string
+        valorHora:
+          type: number
+        prestador:
+          type: string
+    PrestadorReduzido:
+      type: object
+      properties: 
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+    AtualizarPrestador:
+      type: object
+      properties: 
+        nomeCompleto:
+          type: string
+        dataNasc:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+        senha:
+          type: string
+          format: password
+        genero:
+          type: string
+          enum: 
+            - M
+            - F
+            - PNR
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+    Prestador:
+      type: object
+      required:
+        - cpf
+        - nomeCompleto
+        - dataNasc
+        - email
+        - genero
+        - endereco
+      properties: 
+        cpf:
+          type: string
+          maxLength: 11
+        nomeCompleto:
+          type: string
+        dataNasc:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+        senha:
+          type: string
+          format: password
+        genero:
+          type: string
+          enum: 
+            - M
+            - F
+            - PNR
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+    ClienteReduzido:
+      type: object
+      properties: 
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+    AtualizarCliente:
+      type: object
+      properties: 
+        nomeCompleto:
+          type: string
+        dataNasc:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+        senha:
+          type: string
+          format: password
+        genero:
+          type: string
+          enum: 
+            - M
+            - F
+            - PNR
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+    Cliente:
+      type: object
+      required:
+        - cpf
+        - nomeCompleto
+        - dataNasc
+        - email
+        - genero
+        - endereco
+      properties: 
+        cpf:
+          type: string
+          maxLength: 11
+        nomeCompleto:
+          type: string
+        dataNasc:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+        senha:
+          type: string
+          format: password
+        genero:
+          type: string
+          enum: 
+            - M
+            - F
+            - PNR
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+    Endereco:
+      type: object
+      required: 
+        - logradouro
+        - cep
+        - cidade
+        - estado
+        - bairro
+        - numero
+      properties:
+        logradouro:
+          type: string
+        numero:
+          type: string
+        bairro:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+        complemento:
+          type: string
+        cep:
+          type: string
+          maxLength: 9
+  responses:
+    ServicoList:
+      description: "Listagem de serviços foi um sucesso"
+      content: 
+        application/json: 
+          schema:     
+            type: array
+            items: 
+              $ref: '#/components/schemas/ServicoDetailed'
+    ServicoListDetailed:
+      description: "Listagem de serviços foi um sucesso"
+      content: 
+        application/json: 
+          schema:     
+            type: array
+            items: 
+              $ref: '#/components/schemas/ServicoDetailedPlus'
+    ListarClientes:
+      description: "Listagem de clientes foi um sucesso"
+      content: 
+        application/json: 
+          schema:     
+            type: array
+            items: 
+              $ref: '#/components/schemas/ClienteReduzido'
+    DetalharClientes:
+      description: "Detalhar um cliente foi um sucesso"
+      content: 
+        application/json: 
+          schema:
+            $ref: '#/components/schemas/Cliente'
+    ErroTratado:
+      description: "Ocorreu um erro, veja os detalhes"
+      content: 
+        application/json: 
+          schema: 
+            type: object
+            properties:
+              timestamp:
+                type: string
+                format: date-time
+              details:
+                type: string
